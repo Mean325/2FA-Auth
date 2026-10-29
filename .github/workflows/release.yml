@@ -1,0 +1,100 @@
+name: Release macOS
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing stable tag, for example v1.0.0'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+# Publish one version at a time so older runs cannot replace the latest feed.
+concurrency:
+  group: macos-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: macos-26
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ inputs.tag || github.ref_name }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate tag and release notes
+        shell: bash
+        run: |
+          version="$(python3 scripts/release-version.py --check-tag "$RELEASE_TAG")"
+          test -f "docs/releases/$version.md"
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Test core and publishing checks
+        run: |
+          swift test
+          python3 -m unittest discover -s scripts/tests
+
+      - name: Prepare signing credentials
+        shell: bash
+        env:
+          MACOS_CERTIFICATE_P12_BASE64: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
+          MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+          MACOS_PROVISION_PROFILE_BASE64: ${{ secrets.MACOS_PROVISION_PROFILE_BASE64 }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+          NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
+          NOTARY_KEY_BASE64: ${{ secrets.NOTARY_KEY_BASE64 }}
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: bash scripts/ci-signing.sh
+
+      - name: Build, notarize and sign updates
+        shell: bash
+        run: bash scripts/release.sh "$RELEASE_TAG"
+
+      - name: Publish complete release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # This also checks network access before interpreting the result.
+          gh release list --limit 100 --json tagName,isDraft,isPrerelease > "$RUNNER_TEMP/releases.json"
+          python3 - "$RUNNER_TEMP/releases.json" "$RELEASE_VERSION" <<'PY'
+          import json, re, sys
+          version = tuple(map(int, sys.argv[2].split('.')))
+          for release in json.load(open(sys.argv[1])):
+              tag = release['tagName']
+              assert tag != 'v' + sys.argv[2], 'Release already exists; do not overwrite published updates. Remove a failed draft explicitly before retrying.'
+              if not release['isDraft'] and not release['isPrerelease'] and re.fullmatch(r'v\d+\.\d+\.\d+', tag):
+                  assert version > tuple(map(int, tag[1:].split('.'))), 'Refusing to publish a version older than an existing stable release.'
+          PY
+          out="dist/releases/$RELEASE_VERSION"
+          gh release create "$RELEASE_TAG" \
+            "$out/TwoFA-$RELEASE_VERSION-macos-universal.zip" \
+            "$out/TwoFA-$RELEASE_VERSION-macos-universal.dmg" \
+            "$out/appcast.xml" "$out/SHA256SUMS" \
+            --verify-tag --draft --title "钥记 $RELEASE_VERSION" \
+            --notes-file "docs/releases/$RELEASE_VERSION.md"
+          gh release edit "$RELEASE_TAG" --draft=false --latest
+
+      - name: Remove signing credentials
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f "$RUNNER_TEMP/twofa-release.keychain-db" ]]; then
+            security delete-keychain "$RUNNER_TEMP/twofa-release.keychain-db"
+          fi
+          if [[ -n "${PROFILE_PATH:-}" ]]; then rm -f "$PROFILE_PATH"; fi
+          rm -f "$RUNNER_TEMP/twofa-certificate.p12" "$RUNNER_TEMP/twofa-profile.provisionprofile" \
+            "$RUNNER_TEMP/twofa-notary.p8" "$RUNNER_TEMP/twofa-sparkle.private"

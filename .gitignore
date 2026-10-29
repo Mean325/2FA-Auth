@@ -17,3 +17,9 @@ xcuserdata/
 !.env.example
 *.p12
 *.mobileprovision
+*.provisionprofile
+*.p8
+*.key
+*.pem
+*.private
+__pycache__/

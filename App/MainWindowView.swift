@@ -10,6 +10,7 @@ struct MainWindowView: View {
     @Environment(\.controlActiveState) private var controlActiveState
     @Environment(AccountStore.self) private var store
     @Environment(AppSettings.self) private var settings
+    @ObservedObject private var updater = AppUpdater.shared
     @State private var selectedPane = SettingsPane.twoFA
     @State private var searchText = ""
     @State private var accountQuery = ""
@@ -431,7 +432,7 @@ struct MainWindowView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
-            settingsCard(title: L10n.text(L10nKey.settingsAbout), subtitle: L10n.text(L10nKey.settingsVersion), icon: .about) {
+            settingsCard(title: L10n.text(L10nKey.settingsAbout), subtitle: AppUpdater.versionDescription, icon: .about) {
                 HStack(spacing: 14) {
                     Image(nsImage: IconMark.appIcon(side: 52)).frame(width: 52, height: 52)
                     VStack(alignment: .leading, spacing: 4) {
@@ -439,6 +440,30 @@ struct MainWindowView: View {
                         Text(L10n.text(L10nKey.settingsAboutHint)).font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer()
+                    Button(L10n.text(L10nKey.updatesCheck), action: updater.checkForUpdates)
+                        .modifier(SettingsGlassButton())
+                        .disabled(!updater.canCheckForUpdates)
+                }
+                if !updater.isConfigured || updater.failedToStart {
+                    Text(L10n.text(updater.failedToStart ? L10nKey.updatesStartFailed : L10nKey.updatesNotConfigured))
+                        .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Divider().opacity(0.55)
+                    settingRow(L10n.text(L10nKey.updatesAutomaticChecks)) {
+                        Toggle("", isOn: Binding(get: { updater.automaticallyChecks }, set: updater.setAutomaticallyChecks))
+                            .labelsHidden().toggleStyle(.switch).tint(Color(nsColor: .controlAccentColor))
+                            .accessibilityLabel(L10n.text(L10nKey.updatesAutomaticChecks))
+                    }
+                    settingRow(L10n.text(L10nKey.updatesAutomaticDownloads)) {
+                        Toggle("", isOn: Binding(get: { updater.automaticallyDownloads }, set: updater.setAutomaticallyDownloads))
+                            .labelsHidden().toggleStyle(.switch).tint(Color(nsColor: .controlAccentColor))
+                            .accessibilityLabel(L10n.text(L10nKey.updatesAutomaticDownloads))
+                            .disabled(!updater.automaticallyChecks)
+                    }
+                    Text(L10n.text(updater.updateAvailable ? L10nKey.updatesAvailable : L10nKey.updatesAutomaticHint))
+                        .font(.caption).foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }

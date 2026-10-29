@@ -18,6 +18,10 @@ final class StatusBarController: NSObject {
     private var settings: AppSettings?
     var openMain: (() -> Void)?
 
+    func setUpdateAvailable(_ available: Bool) {
+        statusItem?.button?.toolTip = L10n.text(available ? L10nKey.updatesAvailable : L10nKey.appTitle)
+    }
+
     func closePopover() {
         popover.performClose(nil)
     }
@@ -98,6 +102,14 @@ final class StatusBarController: NSObject {
     private func makeMenu() -> NSMenu {
         let menu = NSMenu()
         menu.addItem(item(L10n.text(L10nKey.settingsTitle), #selector(openMainWindow)))
+        let updater = AppUpdater.shared
+        let update = NSMenuItem(title: L10n.text(updater.updateAvailable ? L10nKey.updatesAvailable : L10nKey.updatesCheck),
+                                action: #selector(checkForUpdates), keyEquivalent: "")
+        update.target = self
+        update.isEnabled = updater.canCheckForUpdates
+        // This menu is built afresh on each right click; preserve the updater's enabled state.
+        menu.autoenablesItems = false
+        menu.addItem(update)
         menu.addItem(.separator())
         let quit = item(L10n.text(L10nKey.menuQuit), #selector(quit))
         quit.keyEquivalent = "q"
@@ -141,4 +153,9 @@ final class StatusBarController: NSObject {
     @objc private func quit() {
         NSApp.terminate(nil)
     }
+
+    @objc private func checkForUpdates() {
+        AppUpdater.shared.checkForUpdates()
+    }
+
 }

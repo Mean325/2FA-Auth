@@ -17,6 +17,10 @@ enum AppVisibility {
 
 @MainActor
 final class TwoFAApplicationDelegate: NSObject, NSApplicationDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        AppUpdater.shared.start()
+    }
+
     func applicationWillFinishLaunching(_ notification: Notification) {
         AppVisibility.setDockVisible(UserDefaults.standard.bool(forKey: AppSettings.showInDockKey))
     }

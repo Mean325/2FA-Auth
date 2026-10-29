@@ -1,5 +1,12 @@
 /// 界面文案键。显示字符串在 App 的字符串目录里，核心库不依赖 SwiftUI。
 public enum L10nKey {
+    public static let updatesCheck = "updates.check"
+    public static let updatesAutomaticChecks = "updates.automaticChecks"
+    public static let updatesAutomaticDownloads = "updates.automaticDownloads"
+    public static let updatesAutomaticHint = "updates.automaticHint"
+    public static let updatesAvailable = "updates.available"
+    public static let updatesNotConfigured = "updates.notConfigured"
+    public static let updatesStartFailed = "updates.startFailed"
     public static let settingsTwoFA = "settings.twoFA"
     public static let settingsTwoFAHint = "settings.twoFAHint"
     public static let settingsTwoFAEnabled = "settings.twoFAEnabled"

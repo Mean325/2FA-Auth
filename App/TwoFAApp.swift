@@ -6,6 +6,7 @@ struct TwoFAApp: App {
     @NSApplicationDelegateAdaptor(TwoFAApplicationDelegate.self) private var appDelegate
     @State private var store = AccountStore()
     @State private var settings = AppSettings()
+    @ObservedObject private var updater = AppUpdater.shared
 
     init() {
         AppLanguage.apply(AppLanguage.stored())
@@ -20,6 +21,10 @@ struct TwoFAApp: App {
         .defaultSize(width: AppTheme.windowWidth, height: AppTheme.windowHeight)
         .windowResizability(.contentMinSize)
         .commands {
+            CommandGroup(after: .appInfo) {
+                Button(L10n.text(L10nKey.updatesCheck), action: updater.checkForUpdates)
+                    .disabled(!updater.canCheckForUpdates)
+            }
             CommandGroup(replacing: .appSettings) {
                 Button(L10n.text(L10nKey.settingsTitle)) {
                     StatusBarController.shared.openMain?()

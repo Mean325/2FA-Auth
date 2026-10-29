@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A10000000000000000000015 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000014 /* Sparkle */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		A10000000000000000000016 /* Version.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Version.xcconfig; sourceTree = "<group>"; };
 		A10000000000000000000008 /* TwoFA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoFA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -37,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10000000000000000000015 /* Sparkle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +52,7 @@
 		A10000000000000000000006 = {
 			isa = PBXGroup;
 			children = (
+				A10000000000000000000016 /* Version.xcconfig */,
 				A10000000000000000000003 /* App */,
 				A10000000000000000000007 /* Products */,
 			);
@@ -80,6 +87,7 @@
 			name = TwoFA;
 			packageProductDependencies = (
 				A10000000000000000000012 /* TwoFACore */,
+				A10000000000000000000014 /* Sparkle */,
 			);
 			productName = TwoFA;
 			productReference = A10000000000000000000008 /* TwoFA.app */;
@@ -111,6 +119,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				A10000000000000000000011 /* XCLocalSwiftPackageReference "." */,
+				A10000000000000000000013 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			productRefGroup = A10000000000000000000007 /* Products */;
 			projectDirPath = "";
@@ -180,6 +189,7 @@
 		};
 		A1000000000000000000000D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A10000000000000000000016 /* Version.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/TwoFA.entitlements;
@@ -187,7 +197,6 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_DEBUG_DYLIB = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -199,7 +208,6 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.2famac;
 				PRODUCT_NAME = "钥记";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -209,6 +217,7 @@
 		};
 		A1000000000000000000000E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A10000000000000000000016 /* Version.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = App/TwoFA.entitlements;
@@ -216,9 +225,8 @@
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_DEBUG_DYLIB = NO;
-				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "钥记";
@@ -228,9 +236,9 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = app.2famac;
 				PRODUCT_NAME = "钥记";
+				PROVISIONING_PROFILE_SPECIFIER = "$(TWOFA_PROVISIONING_PROFILE)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -267,12 +275,25 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A10000000000000000000014 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A10000000000000000000013 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
+		};
 		A10000000000000000000012 /* TwoFACore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A10000000000000000000011 /* XCLocalSwiftPackageReference "." */;
 			productName = TwoFACore;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A10000000000000000000013 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {kind = exactVersion; version = 2.10.1; };
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = A10000000000000000000001 /* Project object */;
 }

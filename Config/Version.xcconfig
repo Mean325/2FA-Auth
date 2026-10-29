@@ -1,0 +1,6 @@
+// 发布标签必须与此版本一致，例如 v1.0.0。
+MARKETING_VERSION = 1.0.0
+CURRENT_PROJECT_VERSION = $(MARKETING_VERSION)
+
+// 运行 scripts/setup-updates.sh 后自动写入公钥。私钥只保存在钥匙串和 GitHub Secret。
+SPARKLE_PUBLIC_ED_KEY = oo7pUf8deF/WDpdJBZLbPGYPPHA6BlwXjjsz3Qkbsyc=
