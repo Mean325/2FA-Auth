@@ -2,7 +2,7 @@ import Foundation
 import TwoFACore
 
 enum SyncStatus: Equatable {
-    case localOnly, retrying, synced
+    case disabled, localOnly, retrying, synced
     case unreadable(Int)
 }
 
@@ -20,7 +20,7 @@ enum StoreWrite: Equatable {
 @Observable
 final class AccountStore {
     private(set) var records: [VaultRecord] = []
-    var syncStatus: SyncStatus = .localOnly
+    var syncStatus: SyncStatus = CloudSync.isEnabled ? .localOnly : .disabled
     var remoteThemeUpdate: RemoteThemeUpdate?
     private(set) var storageError: String?
     private(set) var storageReady = false

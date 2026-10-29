@@ -35,7 +35,7 @@ print(String(data: data, encoding: .utf8)!)
         self.info = {
             'CFBundleIdentifier': 'app.2famac', 'CFBundleShortVersionString': '1.0.0',
             'CFBundleVersion': '1.0.0', 'SUPublicEDKey': self.keys['key'],
-            'SUVerifyUpdateBeforeExtraction': True, 'SUEnableInstallerLauncherService': True,
+            'SUVerifyUpdateBeforeExtraction': True,
             'SUFeedURL': 'https://github.com/Mean325/2FA-Auth/releases/latest/download/appcast.xml',
         }
         self.write_info()

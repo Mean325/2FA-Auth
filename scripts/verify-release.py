@@ -18,7 +18,7 @@ def verify(directory: Path, version: str) -> None:
     assert info['CFBundleVersion'] == version, 'Build version does not match tag'
     assert len(base64.b64decode(info['SUPublicEDKey'], validate=True)) == 32, 'Missing public key'
     assert info['SUVerifyUpdateBeforeExtraction'], 'Update verification must be enabled'
-    assert info['SUEnableInstallerLauncherService'], 'Sandbox installer service must be enabled'
+    assert not info.get('SUEnableInstallerLauncherService'), 'Non-sandboxed app must not enable the sandbox installer service'
     assert info['SUFeedURL'] == 'https://github.com/Mean325/2FA-Auth/releases/latest/download/appcast.xml'
     items = ET.parse(directory / 'appcast.xml').findall('./channel/item')
     assert len(items) == 1, 'Expected exactly one release in this feed'

@@ -12,6 +12,8 @@
 
 ## iCloud
 
+当前版本暂时禁用 iCloud：无 CloudKit 容器初始化、同步任务或上传排队，应用不携带 iCloud entitlement。下面保留的协议供未来恢复时参考；已有云端数据不会被本版本修改。
+
 CloudKit 私有区域为 `VaultZone`，记录类型为 `VaultItem` 和 `Preference`。`schemaVersion = 2` 的 `payload` 为 Base64 JSON，账号 UUID、合并规则和删除墓碑沿用当前实现。
 
 只解析当前格式，不提供历史数据库、钥匙串或云端密文的读取与迁移功能。

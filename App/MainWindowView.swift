@@ -427,7 +427,7 @@ struct MainWindowView: View {
                         .accessibilityLabel(L10n.text(L10nKey.settingsTouchID))
                 }
             }
-            settingsCard(title: L10n.text(L10nKey.settingsIcloudTitle), subtitle: L10n.text(L10nKey.settingsSyncHint), icon: .sync) {
+            settingsCard(title: L10n.text(L10nKey.settingsIcloudTitle), subtitle: L10n.text(CloudSync.isEnabled ? L10nKey.settingsSyncHint : L10nKey.settingsIcloudDisabledTitle), icon: .sync) {
                 Text(syncTitle).font(.callout).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -497,6 +497,7 @@ struct MainWindowView: View {
 
     private var syncTitle: String {
         switch store.syncStatus {
+        case .disabled: return L10n.text(L10nKey.settingsIcloudDisabled)
         case .localOnly: return L10n.text(L10nKey.settingsIcloudLocalOnly)
         case .retrying: return L10n.text(L10nKey.settingsIcloudRetry)
         case .unreadable(let count): return L10n.format(L10nKey.settingsIcloudUnreadable, count)

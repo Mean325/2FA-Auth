@@ -6,6 +6,8 @@ import TwoFACore
 /// 账号和主题以 Base64 JSON 同步到 CloudKit 私有库。
 @MainActor
 final class CloudSync {
+    // 暂停云同步；恢复前需配置 Apple 签名和 iCloud 权限。
+    static let isEnabled = false
     static let settingsRecordName = "settings"
     private static let containerID = "iCloud.app.2famac"
     private static let zoneName = "VaultZone"
@@ -38,12 +40,17 @@ final class CloudSync {
     }
 
     func bind(_ store: AccountStore) {
+        guard Self.isEnabled else {
+            store.syncStatus = .disabled
+            return
+        }
         self.store = store
         task?.cancel()
         task = Task { await self.loop() }
     }
 
     func note(_ identifier: String) {
+        guard Self.isEnabled else { return }
         var ids = pendingIDs()
         ids.insert(identifier)
         savePending(ids)

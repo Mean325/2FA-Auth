@@ -1,5 +1,7 @@
 /// 界面文案键。显示字符串在 App 的字符串目录里，核心库不依赖 SwiftUI。
 public enum L10nKey {
+    public static let settingsIcloudDisabled = "settings.icloud.disabled"
+    public static let settingsIcloudDisabledTitle = "settings.icloud.disabledTitle"
     public static let updatesCheck = "updates.check"
     public static let updatesAutomaticChecks = "updates.automaticChecks"
     public static let updatesAutomaticDownloads = "updates.automaticDownloads"

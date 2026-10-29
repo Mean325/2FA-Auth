@@ -2074,6 +2074,30 @@
         }
       }
     },
+    "settings.icloud.disabledTitle": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": { "stringUnit": { "state": "translated", "value": "暂未开放" } },
+        "en": { "stringUnit": { "state": "translated", "value": "Temporarily unavailable" } }
+      }
+    },
+    "settings.icloud.disabled": {
+      "extractionState": "manual",
+      "localizations": {
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud 同步暂未开放，账号和设置仅保存在这台 Mac 上。"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iCloud sync is temporarily unavailable. Accounts and settings are stored only on this Mac."
+          }
+        }
+      }
+    },
     "updates.check": {
       "extractionState": "manual",
       "localizations": {

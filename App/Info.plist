@@ -6,8 +6,6 @@
 	<string>https://github.com/Mean325/2FA-Auth/releases/latest/download/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>$(SPARKLE_PUBLIC_ED_KEY)</string>
-	<key>SUEnableInstallerLauncherService</key>
-	<true/>
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUAutomaticallyUpdate</key>

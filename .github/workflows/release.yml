@@ -26,6 +26,7 @@ jobs:
       contents: write
     env:
       RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+      ENABLE_SIGNED_RELEASES: ${{ vars.ENABLE_SIGNED_RELEASES || 'false' }}
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -45,12 +46,11 @@ jobs:
           swift test
           python3 -m unittest discover -s scripts/tests
 
-      - name: Prepare signing credentials
+      - name: Prepare release credentials
         shell: bash
         env:
           MACOS_CERTIFICATE_P12_BASE64: ${{ secrets.MACOS_CERTIFICATE_P12_BASE64 }}
           MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
-          MACOS_PROVISION_PROFILE_BASE64: ${{ secrets.MACOS_PROVISION_PROFILE_BASE64 }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
           NOTARY_ISSUER_ID: ${{ secrets.NOTARY_ISSUER_ID }}
@@ -58,7 +58,7 @@ jobs:
           SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
         run: bash scripts/ci-signing.sh
 
-      - name: Build, notarize and sign updates
+      - name: Build app and sign updates
         shell: bash
         run: bash scripts/release.sh "$RELEASE_TAG"
 
@@ -95,6 +95,5 @@ jobs:
           if [[ -f "$RUNNER_TEMP/twofa-release.keychain-db" ]]; then
             security delete-keychain "$RUNNER_TEMP/twofa-release.keychain-db"
           fi
-          if [[ -n "${PROFILE_PATH:-}" ]]; then rm -f "$PROFILE_PATH"; fi
-          rm -f "$RUNNER_TEMP/twofa-certificate.p12" "$RUNNER_TEMP/twofa-profile.provisionprofile" \
+          rm -f "$RUNNER_TEMP/twofa-certificate.p12" \
             "$RUNNER_TEMP/twofa-notary.p8" "$RUNNER_TEMP/twofa-sparkle.private"
