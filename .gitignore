@@ -1,0 +1,19 @@
+.DS_Store
+
+# Swift and Xcode build outputs
+.build/
+.swiftpm/
+DerivedData/
+dist/
+*.xcarchive
+
+# Xcode user settings
+xcuserdata/
+*.xcuserstate
+
+# Local configuration and signing credentials
+.env
+.env.*
+!.env.example
+*.p12
+*.mobileprovision
