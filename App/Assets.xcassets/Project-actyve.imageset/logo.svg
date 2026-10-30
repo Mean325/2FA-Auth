@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="-8 -1 44 44"><title>Actyve</title><defs>
+        <linearGradient x1="35.5622377%" y1="6.42803067%" x2="71.3898912%" y2="75.1613434%" id="linearGradient-1">
+            <stop stop-color="#008B59" offset="0%" />
+            <stop stop-color="#00562E" offset="100%" />
+        </linearGradient>
+        <linearGradient x1="0%" y1="68.1967992%" x2="81.9013202%" y2="33.0209227%" id="linearGradient-2">
+            <stop stop-color="#FEB92B" offset="0%" />
+            <stop stop-color="#FB8D0C" offset="100%" />
+        </linearGradient>
+    </defs>
+    <g stroke="none" fill="none" fill-rule="evenodd"><g id="编组-2">
+                    <path d="M0,16.4138792 L0,3.41349163 C-3.51161771e-16,2.35916996 0.854696587,1.50447337 1.90901826,1.50447337 C2.26184458,1.50447337 2.60776861,1.60225309 2.90838607,1.78695707 L28.6315453,17.5916611 L28.6315453,17.5916611 L28.6315453,34.7555086 L0,16.4138792 Z" id="路径-21" fill="url(#linearGradient-1)" />
+                    <path d="M28.6315453,34.7555086 L14.4326833,42.1943615 C13.4987685,42.683644 12.3450392,42.3231983 11.8557567,41.3892836 C11.712549,41.1159368 11.6377407,40.8119478 11.6377407,40.5033592 L11.6377407,29.6739856 L11.6377407,29.6739856 L16.874491,27.0703934 L28.6315453,34.7555086 Z" id="路径-22" fill="url(#linearGradient-2)" />
+                </g>
+            </g></svg>

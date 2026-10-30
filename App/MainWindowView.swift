@@ -206,6 +206,8 @@ struct MainWindowView: View {
                         switch selectedPane {
                         case .twoFA: twoFAPane
                         case .accounts: accountsPane
+                        case .smsCode, .emailCode: developingPane
+                        case .extensions: ExtensionSettingsPane()
                         case .general: generalPane
                         }
                     }
@@ -337,6 +339,12 @@ struct MainWindowView: View {
             .disabled(!settings.twoFAEnabled)
         }
         .background(systemGroupBackground, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+    }
+
+    private var developingPane: some View {
+        Text(L10n.text(L10nKey.settingsDeveloping))
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, minHeight: 180)
     }
 
     private func accountRow(_ record: VaultRecord) -> some View {
@@ -507,13 +515,16 @@ struct MainWindowView: View {
 }
 
 private enum SettingsPane: String, CaseIterable, Identifiable {
-    case twoFA, accounts, general
-    static let sidebarPanes: [SettingsPane] = [.twoFA, .general]
+    case twoFA, accounts, smsCode, emailCode, extensions, general
+    static let sidebarPanes: [SettingsPane] = [.twoFA, .smsCode, .emailCode, .extensions, .general]
     var id: String { rawValue }
     var title: String {
         switch self {
         case .twoFA: return L10n.text(L10nKey.settingsTwoFA)
         case .accounts: return L10n.text(L10nKey.settingsAccounts)
+        case .smsCode: return L10n.text(L10nKey.settingsSMSCode)
+        case .emailCode: return L10n.text(L10nKey.settingsEmailCode)
+        case .extensions: return L10n.text(L10nKey.settingsExtensions)
         case .general: return L10n.text(L10nKey.settingsGeneral)
         }
     }
@@ -521,10 +532,21 @@ private enum SettingsPane: String, CaseIterable, Identifiable {
         switch self {
         case .twoFA: return L10n.text(L10nKey.settingsTwoFAHint)
         case .accounts: return L10n.text(L10nKey.settingsAccountsHint)
+        case .smsCode: return L10n.text(L10nKey.settingsSMSCodeHint)
+        case .emailCode: return L10n.text(L10nKey.settingsEmailCodeHint)
+        case .extensions: return L10n.text(L10nKey.settingsExtensionsHint)
         case .general: return L10n.text(L10nKey.settingsGeneralHint)
         }
     }
-    var systemIcon: SettingsSystemIcon.Kind { self == .general ? .general : .monitoring }
+    var systemIcon: SettingsSystemIcon.Kind {
+        switch self {
+        case .twoFA, .accounts: return .login
+        case .smsCode: return .messages
+        case .emailCode: return .mail
+        case .extensions: return .monitoring
+        case .general: return .general
+        }
+    }
 }
 
 /// Reopen the single settings window without creating duplicate windows.

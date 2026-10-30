@@ -104,7 +104,7 @@ struct SettingsWindowConfigurator: NSViewRepresentable {
 
 struct SettingsSystemIcon: View {
   enum Kind: String, CaseIterable {
-    case general, monitoring, keyboard, display, appearance, network, login, update, about, sync
+    case general, monitoring, keyboard, display, appearance, network, login, update, about, sync, messages, mail, extensions
 
     var path: String {
       let root = "/System/Library/ExtensionKit/Extensions/"
@@ -119,6 +119,9 @@ struct SettingsSystemIcon: View {
       case .update: return root + "SoftwareUpdateSettingsExtension.appex"
       case .about: return root + "AboutExtension.appex"
       case .sync: return root + "DateAndTime Extension.appex"
+      case .messages: return "/System/Applications/Messages.app"
+      case .mail: return "/System/Applications/Mail.app"
+      case .extensions: return root + "AppExtensionManagement.appex"
       }
     }
 
@@ -134,6 +137,9 @@ struct SettingsSystemIcon: View {
       case .update: return "gear.badge"
       case .about: return "laptopcomputer"
       case .sync: return "clock"
+      case .messages: return "message.fill"
+      case .mail: return "envelope.fill"
+      case .extensions: return "puzzlepiece.extension.fill"
       }
     }
 

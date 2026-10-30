@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 3</title>
+    <defs>
+        <linearGradient x1="30.3561635%" y1="10.8400005%" x2="72.0905829%" y2="94.0378346%" id="linearGradient-1">
+            <stop stop-color="#00A199" offset="0%"></stop>
+            <stop stop-color="#5BBA90" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-66.7%" y="-44.4%" width="233.3%" height="188.9%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.088728401   0 0 0 0 0.4122226   0 0 0 0 0.396148354  0 0 0 0.190095061 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="官网设计" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo切图" transform="translate(-167.000000, -79.000000)">
+            <g id="编组-3" transform="translate(167.000000, 79.000000)">
+                <rect id="矩形" fill="url(#linearGradient-1)" x="0" y="0" width="50" height="50"></rect>
+                <g id="编组-2" filter="url(#filter-2)" transform="translate(17.000000, 12.000000)" fill="#FFFFFF">
+                    <polygon id="Fill-45" points="0 27 6.66666667 27 6.66666667 0 0 0"></polygon>
+                    <path d="M7.35022619,20.25 C7.35022619,18.0875203 7.32240903,16.1034612 7.37708414,14.1212801 C7.38667627,13.7729195 7.6811545,13.3729151 7.95165243,13.1006117 C8.96554003,12.0846382 10.0245106,11.1118577 11.2503842,9.94658685 C10.0906963,8.87990861 9.00007168,7.95032105 8.0111236,6.92683576 C7.66292947,6.56532949 7.39722761,5.98128559 7.37612493,5.48738352 C7.30130636,3.6986317 7.34734856,1.90424602 7.34734856,0 C11.2110565,0.0788740957 14.2220245,1.52865509 16.228697,4.61131767 C18.5538281,8.18130947 18.5960334,11.9419137 16.318863,15.533502 C14.3332931,18.6640524 11.3386317,20.255619 7.35022619,20.25" id="Fill-47"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
